@@ -53,7 +53,7 @@ app.set("view engine", "hbs");
 app.set("views", "./views");
 
 //====================================================================
-
+//Configuramos el servidor para que a las conexiones
 io.on("connection", async (socket) => {
   console.log("Nuevo usuario conectado");
   /* Envio los mensajes al cliente que se conectó */
@@ -78,3 +78,18 @@ app.use((err, req, res, next) => {
 //Importo las rutas y las uso con el prefijo /api
 const productosRouter = require('./routes/productos')
 app.use('/api', productosRouter)
+
+//====================================================================
+let messages = [];
+
+//* Recibimos los mensajes de la función addMessage(this) de index.html
+//? ¿Es necesario una nueva instancia de in.on()?
+io.on("connection", function (socket) {
+  console.log("Un cliente se ha conectado");
+  socket.emit("messages", messages);
+
+  socket.on("new-message", function (data) {
+    messages.push(data);
+    io.sockets.emit("messages", messages);
+  });
+}); 

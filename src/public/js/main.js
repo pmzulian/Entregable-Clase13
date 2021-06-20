@@ -67,3 +67,53 @@ function data2TableHBS(productos) {
   let html = template({ productos: productos, hayProductos: productos.length });
   return html;
 }
+
+//*====================================================================================
+//* Código correspondiente al socket de mensajes
+
+/**
+ * Recibimos mensajes en el cliente (del lado del navegador)
+ * El parámetro data representa el array de mensajes que envía el servidor
+ */
+socket.on("messages", data => {
+  console.log(data);
+})
+
+/**
+ * Generamos una función que renderice los mensajes recibidos
+ */
+function render(data) {
+  let html = data
+    .map(function (elem, index) {
+      return `
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="badge badge-pill badge-primary">${elem.author}</div><br/>
+                  ${elem.text}
+                </div>
+                <span class="text-monospace">${elem.hora}</span>
+              </li>  
+              `;
+    })
+    .join(" ");
+  document.getElementById("messages").innerHTML = html;
+}
+
+socket.on("messages", function (data) {
+  render(data);
+});
+
+/**
+ * Escribimos la función para añadir mensajes desde el formulario
+ * de index.html, onsubmit="return addMessage(this)"
+ */
+function addMessage(e) {
+  let mensaje = {
+    author: document.getElementById("username").value,
+    text: document.getElementById("texto").value,
+    hora: new Date().toLocaleTimeString(),
+  };
+
+  socket.emit("new-message", mensaje);
+  return false;
+}
