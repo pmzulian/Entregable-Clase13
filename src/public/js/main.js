@@ -108,8 +108,6 @@ socket.on("messages", function (data) {
  * de index.html, onsubmit="return addMessage(this)"
  */
 function addMessage(e) {
-  let dia = new Date().toLocaleDateString;
-  let hora = new Date().toLocaleTimeString;
   let mensaje = {
     author: document.getElementById("username").value,
     text: document.getElementById("texto").value,
