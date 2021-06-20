@@ -86,7 +86,7 @@ function render(data) {
   let html = data
     .map(function (elem, index) {
       return `
-              <li class="list-group-item d-flex justify-content-between align-items-start">
+              <li class="list-group-item d-flex justify-content-between align-items-start fst-italic">
                 <div class="ms-2 me-auto">
                   <div class="badge badge-pill badge-primary">${elem.author}</div><br/>
                   ${elem.text}
@@ -108,10 +108,12 @@ socket.on("messages", function (data) {
  * de index.html, onsubmit="return addMessage(this)"
  */
 function addMessage(e) {
+  let dia = new Date().toLocaleDateString;
+  let hora = new Date().toLocaleTimeString;
   let mensaje = {
     author: document.getElementById("username").value,
     text: document.getElementById("texto").value,
-    hora: new Date().toLocaleTimeString(),
+    hora: new Date().toLocaleString(),
   };
 
   socket.emit("new-message", mensaje);

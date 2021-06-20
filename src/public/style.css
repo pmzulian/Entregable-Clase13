@@ -19,3 +19,11 @@ hr {
 input#username, input#texto {
     max-width: 40%;
 }
+
+.text-monospace{
+    color: brown;
+}
+
+.ms-2 .me-auto{
+    color: darkgreen;
+}
